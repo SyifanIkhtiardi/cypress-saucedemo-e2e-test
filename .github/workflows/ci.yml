@@ -13,3 +13,4 @@ jobs:
         with:
           browser: chrome
           record: true
+          key: ${{ secrets.CYPRESS_RECORD_KEY }}
