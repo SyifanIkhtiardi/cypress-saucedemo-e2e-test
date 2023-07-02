@@ -2,7 +2,7 @@ describe("Login with different username", () => {
   let userData
 
   beforeEach(() => {
-    cy.visit("https://www.saucedemo.com/");
+    
     cy.fixture("users").then((data) => {
       userData = data;
     })
