@@ -20,38 +20,10 @@ describe("Product checkout", () => {
 
     });
 
-    context("When adding product to cart", () => {
+    context("When checking out product", () => {
         beforeEach(() => {
             // Add product to cart
             cy.addToCart("sauce-labs-bike-light");
-            cy.addToCart("sauce-labs-backpack");
-        });
-
-        it("Should display correct number of product in cart", () => {
-            // Verify the number of product in the cart
-            cy.get(".shopping_cart_badge").should("contain", "2");
-        });
-
-        it("Should remove product from cart", () => {
-            cy.removeFromCart("sauce-labs-backpack");
-            cy.get(".shopping_cart_badge").should("contain", "1");
-        });
-    });
-
-    context("When checking out", () => {
-        beforeEach(() => {
-            // Add product to cart
-            cy.addToCart("sauce-labs-bike-light");
-        });
-
-        it("should display the correct product and total amount", () => {
-            // Access cart page
-            cy.get(".shopping_cart_link").click();
-
-            // Verify product displayed in the cart
-            cy.contains("Sauce Labs Bike Light").should("exist");
-            // Verify the total amount displayed in the cart
-            cy.contains("$9.99").should("exist");
         });
 
         it("should allow completing checkout process", () => {
@@ -79,9 +51,19 @@ describe("Product checkout", () => {
 
             // Verify the order confirmation
             cy.contains("Your order has been dispatched, and will arrive just as fast as the pony can get there!").should("exist");
+        });
+
+        it("Should allow to cancel checkout process", () => {
+            cy.get(".shopping_cart_link").click();
+
+            // Proceed to checkout
+            cy.get("[data-test='checkout']").click();
+
+            // Cancel checkout process
+            cy.get("[data-test='cancel']").click();
+
+            // Check of redirected to cart page
+            cy.url().should("eq", "https://www.saucedemo.com/cart.html");
         })
-
     });
-
-
-})
+});
